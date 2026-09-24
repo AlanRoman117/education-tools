@@ -12,7 +12,7 @@
     "build": "node scripts/build-site.js"
   },
   "devDependencies": {
-    "@playwright/test": "1.56.1"
+    "@playwright/test": "1.63.0"
   },
   "engines": {
     "node": ">=20"
