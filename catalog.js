@@ -32,7 +32,7 @@ window.EduTools.catalog = [
   {
     id: 'number-pattern-lights',
     title: 'Number Pattern Lights',
-    description: 'Tap 1 to 10 and every number that ends the same way lights up, all the way to 110. Helps with counting to 20 and the teen numbers.',
+    description: 'Tap 1 to 10 and every number that ends the same way lights up, all the way to 110. Tap any number on the board to hear it. Helps with counting to 20 and the teen numbers.',
     path: 'tools/math/counting/number-pattern-lights/index.html',
     subject: 'math',
     topic: 'counting',

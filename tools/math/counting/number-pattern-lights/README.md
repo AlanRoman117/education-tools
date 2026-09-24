@@ -16,6 +16,9 @@ and the lights it controls are easy to connect. Lit columns stay on, the
 newest one pulses, and when all ten are lit the board does a rainbow wave.
 **Reset** turns everything off.
 
+Tap **any number on the board** to hear it said out loud. It gets a white
+ring for a moment, and the lit columns stay as they are.
+
 ## What it teaches
 
 - **Counting to 20.** The first two rows (1–20) have a soft gold outline.
@@ -35,6 +38,9 @@ newest one pulses, and when all ten are lit the board does a rainbow wave.
 2. **Find the teen.** Tap 4 and ask "Which lit number comes after ten?"
    (14). Try it with 6, 7 and 9.
 3. **Guess before tapping.** "If we tap 5, will 15 light up? What about 25?"
+4. **Hear the teens.** Tap 11 through 20 on the board one at a time and say
+   each one together after the voice. Then try one out of order ("Can you
+   find seventeen?") and tap it to check.
 
 ## For grown-ups
 
