@@ -1,0 +1,20 @@
+{
+  "name": "education-tools",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Small hands-on learning tools for kids, one page each. npm is only used for development (tests, local server, site build); the tools themselves need nothing installed.",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "build": "node scripts/build-site.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

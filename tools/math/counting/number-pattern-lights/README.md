@@ -42,5 +42,5 @@ newest one pulses, and when all ten are lit the board does a rainbow wave.
 - It works offline. Open `index.html` straight from the folder, or through
   GitHub Pages.
 - Files: `index.html` (layout), `style.css` (board and buttons), `app.js`
-  (behavior). The number colors come from `shared/base.css`, and the voice
-  comes from `shared/speech.js`.
+  (behavior) and `tool.spec.js` (tests). The number colors come from
+  `shared/base.css`, and the voice comes from `shared/speech.js`.

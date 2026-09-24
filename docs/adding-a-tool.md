@@ -16,22 +16,27 @@ grows, and a single tool can cover several ages.
    an existing topic folder if one fits, or make a new one (see naming).
 2. **Copy the starter.** Copy `templates/tool/` to
    `tools/<subject>/<topic>/<tool-id>/`. It already links to the shared styles,
-   the voice helper and the home page.
+   the voice helper and the home page, and has a starter `tool.spec.js`.
 3. **Build it.** Follow the rules below.
 4. **Register it.** Add an entry to `catalog.js` (the fields are documented at
-   the top of that file).
+   the top of that file) and a row to the table in the root `README.md`.
 5. **Describe it.** Fill in the tool's `README.md`: what it teaches, the ages,
    ideas for using it with a child.
-6. **Check it.**
-   - Open `index.html` straight from the folder (a `file://` address) and
-     through a local server (`python3 -m http.server`).
-   - Try it on a tablet in portrait and landscape.
-   - The card shows up under the right age.
+6. **Test it.** Write the tool's behavior tests in `tool.spec.js` (see
+   [testing.md](testing.md)), then run `npm test`. The shared checks already
+   cover loading, `file://`, offline and screen fit on every device.
+7. **Try it on a device.** Run `npm start` and open the Wi-Fi address on the
+   iPad. Or open a pull request and use its preview link (see
+   [deployment.md](deployment.md)).
 
 ## Rules for tools
 
-- **Plain HTML, CSS and JavaScript.** No framework, no build step, no npm.
-  Tools should still open years from now without updates.
+- **Nothing personal.** The repo is public. Never add a child's name, photo,
+  voice recording, school or location to a tool, a test or a doc. Tools don't
+  collect or send data.
+- **Plain HTML, CSS and JavaScript.** No framework and no build step. Tools
+  never use npm packages (npm is only for tests). Tools should still open
+  years from now without updates.
 - **Classic `<script src>` only.** Don't use ES modules or `fetch()`, because
   browsers block both on `file://`. Shared code goes on `window.EduTools`.
 - **Nothing loaded from the internet.** No CDN scripts or web fonts, so tools
