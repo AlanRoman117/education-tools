@@ -1,0 +1,226 @@
+/*
+ * Number Pattern Lights.
+ * Sizes inside .unit use cqi (1cqi = 1% of the unit's width), so the board
+ * and the buttons scale together and the buttons line up under the columns.
+ */
+
+:root {
+  --board-bg: #1c2145;
+  --board-bg-2: #141833;
+  --bulb-off: #2a3060;
+  --bulb-off-ink: #8189bd;
+  --goal: 255, 206, 84;
+  --cascade: 45ms;
+}
+
+.stage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 4px 16px 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  container-type: size;
+}
+
+/* Board + buttons. Its height is about 1.25x its width. */
+.unit {
+  position: relative;
+  width: min(100cqw, 100cqh * 0.79, 900px);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5cqi;
+  container-type: inline-size;
+}
+
+/* ---- Board ------------------------------------------------------------- */
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1cqi;
+  padding: 2cqi;
+  border-radius: 3.5cqi;
+  background: linear-gradient(160deg, var(--board-bg), var(--board-bg-2));
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Soft outline around 1–20, the numbers he is practicing now. */
+.goal-zone {
+  grid-row: 1 / span 2;
+  grid-column: 1 / -1;
+  margin: -0.6cqi;
+  border-radius: 2.2cqi;
+  background: rgba(var(--goal), 0.08);
+  box-shadow: 0 0 0 0.35cqi rgba(var(--goal), 0.55);
+  pointer-events: none;
+}
+
+.cell {
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 24%;
+  background: var(--bulb-off);
+  color: var(--bulb-off-ink);
+  font-size: 3.7cqi;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  transition-delay: 0s;
+}
+
+.cell.lit {
+  background: var(--c);
+  color: var(--ink);
+  box-shadow:
+    0 0 2.2cqi 0.2cqi color-mix(in srgb, var(--c) 70%, transparent),
+    inset 0 -0.5cqi 0 rgba(0, 0, 0, 0.18),
+    inset 0 0.4cqi 0 rgba(255, 255, 255, 0.35);
+  /* Light flows down the column: 1, then 11, then 21 … */
+  transition-delay: calc(var(--row) * var(--cascade));
+}
+
+/* The column tapped most recently pops, then keeps gently pulsing. */
+.cell.newest {
+  z-index: 2;
+  animation:
+    pop 0.5s ease-out calc(var(--row) * var(--cascade)),
+    pulse 1.6s ease-in-out calc(var(--row) * var(--cascade) + 0.5s) infinite;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);    filter: brightness(1); }
+  50%      { transform: scale(1.07); filter: brightness(1.18); }
+}
+
+/* All 10 columns lit: a rainbow wave sweeps across the board. */
+.board.celebrate .cell {
+  z-index: 2;
+  animation: wave 0.9s ease-in-out calc((var(--row) + var(--col)) * 40ms) both;
+}
+
+@keyframes wave {
+  0%, 100% { transform: none; filter: none; }
+  45%      { transform: scale(1.18) translateY(-6%); filter: brightness(1.3) saturate(1.2); }
+}
+
+/* ---- Buttons ----------------------------------------------------------- */
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 1cqi;
+  padding: 0 2cqi;
+}
+
+.pad-btn {
+  position: relative;
+  height: max(12cqi, 44px);
+  padding: 0;
+  border: 0;
+  border-radius: 3cqi;
+  background: var(--c);
+  color: var(--ink);
+  font-size: max(4.8cqi, 17px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  box-shadow:
+    0 0.8cqi 0 color-mix(in srgb, var(--c) 60%, #000),
+    0 1.4cqi 2cqi rgba(0, 0, 0, 0.18);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.pad-btn:active {
+  transform: translateY(0.6cqi);
+  box-shadow:
+    0 0.2cqi 0 color-mix(in srgb, var(--c) 60%, #000),
+    0 0.6cqi 1cqi rgba(0, 0, 0, 0.18);
+}
+
+/* Little light on top of each button: on when its column is lit. */
+.pad-btn::before {
+  content: "";
+  position: absolute;
+  top: 9%;
+  left: 50%;
+  width: 1.6cqi;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.18);
+  transform: translateX(-50%);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pad-btn.on::before {
+  background: #fff;
+  box-shadow: 0 0 1.2cqi 0.3cqi rgba(255, 255, 255, 0.9);
+}
+
+.pad-btn.bounce {
+  animation: bounce 0.35s ease-out;
+}
+
+@keyframes bounce {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.86); }
+  70%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Celebration banner ------------------------------------------------ */
+
+.banner {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 2cqi;
+  padding: 2.4cqi 5cqi;
+  border: 0.8cqi solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(90deg, var(--d1), var(--d2), var(--d3), var(--d4), var(--d5),
+      var(--d6), var(--d7), var(--d8), var(--d9), var(--d10)) border-box;
+  color: var(--text);
+  font-size: max(6cqi, 22px);
+  font-weight: 900;
+  white-space: nowrap;
+  box-shadow: 0 2cqi 6cqi rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: banner-in 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.banner.hiding {
+  animation: banner-out 0.4s ease-in both;
+}
+
+.banner-star:first-child { color: var(--d3); }
+.banner-star:last-child  { color: var(--d10); }
+
+@keyframes banner-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes banner-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}

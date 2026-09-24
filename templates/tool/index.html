@@ -1,0 +1,40 @@
+<!doctype html>
+<!--
+  Starter page for a new tool. Copy this whole folder to
+  tools/<subject>/<topic>/<tool-id>/ — the ../../../../ paths below assume
+  that depth. Then add the tool to catalog.js.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="One sentence about what this tool does.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#fdf8f0">
+  <title>Tool Name</title>
+  <link rel="stylesheet" href="../../../../shared/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="tool">
+  <header class="tool-header">
+    <a class="icon-btn" href="../../../../index.html" aria-label="All tools" title="All tools">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </a>
+    <h1>Tool Name</h1>
+    <div class="tool-actions">
+      <button class="icon-btn mute-btn" id="mute" type="button" hidden>
+        <svg class="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 5.5a9 9 0 010 13"/></svg>
+        <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6"/><path d="M16 9l6 6"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+    <!-- Tool content goes here. -->
+  </main>
+
+  <script src="../../../../shared/speech.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
