@@ -50,6 +50,40 @@ test('lighting all ten columns celebrates, then the banner goes away', async ({ 
   await expect(page.locator('#banner')).toBeHidden({ timeout: 7000 });
 });
 
+test('tapping any number on the board says it', async ({ page }) => {
+  for (const n of [13, 7, 20, 101]) {
+    await page.locator(`.cell[data-number="${n}"]`).click();
+  }
+  expect(await spokenWords(page)).toEqual(['13', '7', '20', '101']);
+});
+
+test('a tapped number is ringed briefly and lights nothing', async ({ page }) => {
+  const cell = page.locator('.cell[data-number="17"]');
+  await cell.click();
+  await expect(cell).toHaveClass(/\bsaid\b/);
+  expect(await litNumbers(page)).toEqual([]);
+  await expect(cell).not.toHaveClass(/\bsaid\b/, { timeout: 2000 });
+
+  // Only one number is ringed at a time.
+  await page.locator('.cell[data-number="3"]').click();
+  await page.locator('.cell[data-number="4"]').click();
+  await expect(page.locator('.cell.said')).toHaveCount(1);
+  await expect(page.locator('.cell[data-number="4"]')).toHaveClass(/\bsaid\b/);
+});
+
+test('tapping board numbers keeps lit columns as they are', async ({ page }) => {
+  await page.locator('.pad-btn[data-digit="2"]').click();
+  await page.locator('.cell[data-number="55"]').click();
+  expect(await litNumbers(page)).toEqual(column(2));
+  expect(await spokenWords(page)).toEqual(['2', '55']);
+});
+
+test('muted board numbers stay silent', async ({ page }) => {
+  await page.locator('#mute').click();
+  await page.locator('.cell[data-number="12"]').click();
+  expect(await spokenWords(page)).toEqual([]);
+});
+
 test('reset turns everything off', async ({ page }) => {
   await page.locator('.pad-btn[data-digit="4"]').click();
   await page.locator('#reset').click();
