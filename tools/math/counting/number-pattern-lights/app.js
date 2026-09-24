@@ -5,6 +5,9 @@
  * every number that ends the same way: 1 → 1, 11, 21 … 101 and
  * 10 → 10, 20 … 110. Lit columns stay on; once all ten are lit the board
  * celebrates. Reset turns everything off.
+ *
+ * Tapping any number on the board says it out loud, without changing
+ * which columns are lit.
  */
 (function () {
   'use strict';
@@ -14,6 +17,7 @@
   var CASCADE_MS = 45;          // keep in sync with --cascade in style.css
   var WAVE_MS = 1800;           // length of the .celebrate wave
   var BANNER_MS = 4000;
+  var SAID_MS = 800;            // how long a tapped number stays ringed
 
   var board = document.getElementById('board');
   var pad = document.getElementById('pad');
@@ -27,6 +31,8 @@
   var litCount = 0;
   var celebrated = false;
   var timers = [];
+  var saidCell = null;
+  var saidTimer = null;
 
   // Numbers on a 1–max board that end the same way as digit (1–10).
   function columnNumbers(digit, max) {
@@ -56,6 +62,7 @@
       cell.className = 'cell';
       cell.textContent = n;
       cell.dataset.digit = digit;
+      cell.dataset.number = n;
       // Placed explicitly so the goal-zone outline can sit behind rows 1–2.
       cell.style.gridRow = String(row + 1);
       cell.style.gridColumn = String(digit);
@@ -82,6 +89,26 @@
 
   function onPadClick(event) {
     tap(Number(event.currentTarget.dataset.digit));
+  }
+
+  // Tapping a number on the board says it and briefly rings it.
+  function onBoardClick(event) {
+    var cell = event.target.closest('.cell');
+    if (cell) say(Number(cell.dataset.number));
+  }
+
+  function say(n) {
+    var cell = cellByNumber[n];
+    speech.speak(n);
+    clearTimeout(saidTimer);
+    if (saidCell && saidCell !== cell) saidCell.classList.remove('said');
+    restartClass([cell], 'said');
+    saidCell = cell;
+    saidTimer = setTimeout(function () {
+      cell.classList.remove('said');
+      saidCell = null;
+    }, SAID_MS);
+    status.textContent = String(n);
   }
 
   // Remove and re-add a class so its CSS animation plays again.
@@ -167,6 +194,7 @@
 
   buildBoard();
   buildPad();
+  board.addEventListener('click', onBoardClick);
   speech.bindMuteButton(document.getElementById('mute'));
   document.getElementById('reset').addEventListener('click', reset);
   document.addEventListener('keydown', onKeyDown);

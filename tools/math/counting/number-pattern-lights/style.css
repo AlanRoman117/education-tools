@@ -106,6 +106,19 @@
   50%      { transform: scale(1.07); filter: brightness(1.18); }
 }
 
+/* Any number can be tapped to hear it. The tapped one gets a white ring
+   (still shown with reduced motion) and a small pop. */
+.cell {
+  cursor: pointer;
+}
+
+.cell.said {
+  z-index: 3;
+  outline: 0.5cqi solid #fff;
+  outline-offset: 0.25cqi;
+  animation: pop 0.45s ease-out;
+}
+
 /* All 10 columns lit: a rainbow wave sweeps across the board. */
 .board.celebrate .cell {
   z-index: 2;
