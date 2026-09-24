@@ -206,14 +206,17 @@ body.tool {
 .mute-btn[aria-pressed="true"] .icon-sound { display: none; }
 .mute-btn[aria-pressed="true"] .icon-muted { display: block; }
 
+/*
+ * Reduced motion: remove animations and transitions entirely. (Shortening
+ * them to near zero isn't enough: Safari's engine keeps reporting them as
+ * running.) Tools must use timers, never animationend/transitionend events.
+ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    animation-delay: 0s !important;
-    transition-duration: 0.01ms !important;
-    transition-delay: 0s !important;
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

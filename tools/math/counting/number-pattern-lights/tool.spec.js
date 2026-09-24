@@ -94,9 +94,12 @@ test.describe('with reduced motion', () => {
     await page.locator('.pad-btn[data-digit="6"]').click();
     await page.waitForTimeout(100);
     const running = await page.evaluate(() =>
-      document.getAnimations().filter((a) => a.playState === 'running').length
+      document.getAnimations()
+        .filter((a) => a.playState === 'running')
+        .map((a) => `${a.constructor.name} ${a.animationName || a.transitionProperty} on .${a.effect.target.className}`)
     );
-    expect(running).toBe(0);
+    expect(running, 'animations still running').toEqual([]);
+    await expect(page.locator('.cell.lit')).toHaveCount(11);
     expect(problems).toEqual([]);
   });
 });

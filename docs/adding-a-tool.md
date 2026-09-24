@@ -43,8 +43,10 @@ grows, and a single tool can cover several ages.
   work offline.
 - **Touch first.** Put `class="tool"` on `<body>`, keep tap targets at least
   48px, and make sure the tool fits a tablet screen with no scrolling.
-- **Gentle motion.** Every animation must respect `prefers-reduced-motion`
-  (`shared/base.css` handles this globally).
+- **Gentle motion.** Every animation must respect `prefers-reduced-motion`.
+  `shared/base.css` handles this globally by removing all animations and
+  transitions, so tools must use timers (`setTimeout`) and never wait for
+  `animationend` or `transitionend`.
 - **Local storage is only for small preferences** (mute, last setting). Wrap
   every read and write in `try/catch`. Key names start with `eduTools.`
   followed by the tool id, e.g. `eduTools.number-pattern-lights.size`.
