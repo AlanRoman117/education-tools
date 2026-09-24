@@ -1,8 +1,13 @@
 # Education Tools
 
 Small, hands-on learning tools for kids, collected over time across many
-subjects. Each tool is its own page. You can open it from the folder, host it
-on GitHub Pages, or add it to a tablet's home screen.
+subjects. Each tool is its own page that works on a tablet, a phone or a
+computer, even offline.
+
+**Live site: https://alanroman117.github.io/education-tools/**
+
+Parents and teachers are welcome to use, copy and adapt anything here (see
+[License](#license)).
 
 ## Tools
 
@@ -15,12 +20,10 @@ The full list, with age and subject filters, is on the home page
 
 ## Using it
 
-- **On this computer:** open `index.html` in a browser. No install or server
-  is needed.
-- **On a tablet or phone:** turn on GitHub Pages (repo **Settings → Pages →
-  Deploy from a branch**, then choose the branch and `/ (root)`). Open the
-  site and use **Share → Add to Home Screen** on a tool so it opens full
-  screen.
+- **On a tablet or phone:** open the live site, pick a tool, then use
+  **Share → Add to Home Screen** so it opens full screen like an app.
+- **On a computer:** open the live site, or download the repo and
+  double-click `index.html`. No install or internet connection is needed.
 
 ## How the repo is organized
 
@@ -33,10 +36,19 @@ shared/             styles and helpers every tool can use
 tools/
   <subject>/
     <topic>/
-      <tool-id>/    one self-contained tool: index.html, style.css, app.js, README.md
+      <tool-id>/    one self-contained tool: index.html, style.css, app.js,
+                    README.md and tool.spec.js (its tests)
 templates/tool/     starter files for a new tool
 docs/
   adding-a-tool.md  steps, rules, subject list, age ranges
+  testing.md        running and writing tests
+  deployment.md     how changes get tested and published, one-time setup
+
+Development only (not part of the site):
+tests/              checks that run on every tool automatically
+scripts/            local server (npm start) and site build (npm run build)
+playwright.config.js  test devices: iPad, iPhone, ASUS ROG Flow Z13
+.github/            CI workflow, Dependabot, branch ruleset
 ```
 
 **Folders go subject → topic → tool. Age is a tag.** Each tool lists an age
@@ -63,6 +75,30 @@ behave alike. If you later want things like progress tracking across tools,
 a single app could make sense then. The `subject/topic/tool` folders would
 map directly onto its pages.
 
+## Testing and publishing
+
+Every pull request is tested in real browser engines at iPad, iPhone and Z13
+sizes, and it gets a preview link to try on a device. Merging into `main`
+tests again and then publishes the live site. A change that fails its tests
+can't be merged and is never published. Details:
+[docs/testing.md](docs/testing.md) and [docs/deployment.md](docs/deployment.md).
+
+```sh
+npm install        # once
+npm test           # run all tests
+npm start          # try the site locally, including from a tablet on your Wi-Fi
+```
+
 ## Adding a tool
 
 See [docs/adding-a-tool.md](docs/adding-a-tool.md).
+
+## Privacy
+
+Tools don't collect or send any data. Because the repo is public, it never
+contains anything that identifies a child: names, photos, voice recordings,
+school or location.
+
+## License
+
+[Apache License 2.0](LICENSE).
